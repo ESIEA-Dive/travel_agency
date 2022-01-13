@@ -1,11 +1,11 @@
 package fr.lernejo.travelsite.controller;
 
+import fr.lernejo.travelsite.model.Travel;
 import fr.lernejo.travelsite.model.User;
 import fr.lernejo.travelsite.service.TravelSiteService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -23,5 +23,10 @@ public class TravelController {
         return user;
     }
 
+    @ResponseBody
+    @GetMapping("/travels")
+    public List<Travel> findTravelsByUsername(@RequestParam String userName){
+        return travelSiteService.findTravelsByUsername(userName);
+    }
 
 }
