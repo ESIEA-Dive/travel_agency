@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class PredictionController {
 
-    private PredictionService predictionService;
+    private final PredictionService predictionService;
 
     public PredictionController(PredictionService predictionService) {
         this.predictionService = predictionService;

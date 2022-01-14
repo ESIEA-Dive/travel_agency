@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class PredictionService {
 
-    TemperatureService temperatureService;
+    private final TemperatureService temperatureService;
 
     public PredictionService(TemperatureService temperatureService) {
         this.temperatureService = temperatureService;

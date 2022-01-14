@@ -1,7 +1,6 @@
 package fr.lernejo.travelsite.service;
 
 import fr.lernejo.travelsite.api.PredictionClient;
-import fr.lernejo.travelsite.constant.TravelAgencyConstant;
 import fr.lernejo.travelsite.exception.UnableToConnectClientException;
 import fr.lernejo.travelsite.exception.UnableToReadFileException;
 import fr.lernejo.travelsite.model.Prediction;
@@ -27,9 +26,10 @@ public class PredictionService {
     }
 
     public List<Travel> getListOfTravels() {
+        String FILE_COUNTRIES = "countries.txt";
         List<Travel> travels = new ArrayList<>();
         String content = null;
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(TravelAgencyConstant.FILE_COUNTRIES);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(FILE_COUNTRIES);
         try {
             if (Objects.nonNull(inputStream)) {
                 content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);

@@ -1,7 +1,6 @@
 package fr.lernejo.travelsite.model;
 
 
-import fr.lernejo.travelsite.constant.TravelAgencyConstant;
 import fr.lernejo.travelsite.enumeration.Weather;
 import fr.lernejo.travelsite.exception.InvalidEmailException;
 import fr.lernejo.travelsite.exception.InvalidTemperatureException;
@@ -10,24 +9,33 @@ import fr.lernejo.travelsite.exception.RequiredInputException;
 import java.util.Objects;
 
 
-public record User(String userEmail, String userName, String userCountry,
-                   Weather weatherExpectation, Double minimumTemperatureDistance) {
+public record User(String userEmail, String userName, String userCountry, Weather weatherExpectation,
+                   Double minimumTemperatureDistance) {
+
 
     public User(String userEmail, String userName, String userCountry, Weather weatherExpectation, Double minimumTemperatureDistance) {
-
         validateInputs(userEmail, userName, userCountry, weatherExpectation, minimumTemperatureDistance);
-
         this.userEmail = userEmail;
         this.minimumTemperatureDistance = minimumTemperatureDistance;
-
         this.userName = userName;
         this.userCountry = userCountry;
         this.weatherExpectation = weatherExpectation;
     }
 
 
-
     private void validateInputs(String userEmail, String userName, String userCountry, Weather weatherExpectation, Double minimumTemperatureDistance) {
+
+        String EMAIL_REGEX = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        validateRequiredFields(userEmail, userName, userCountry, weatherExpectation, minimumTemperatureDistance);
+        if (!userEmail.matches(EMAIL_REGEX)) {
+            throw new InvalidEmailException("Invalid email address, please enter correct email address");
+        }
+        if (minimumTemperatureDistance <= 0 || minimumTemperatureDistance > 40) {
+            throw new InvalidTemperatureException("Invalid temperature, please enter correct value");
+        }
+    }
+
+    private void validateRequiredFields(String userEmail, String userName, String userCountry, Weather weatherExpectation, Double minimumTemperatureDistance) {
         if (Objects.isNull(userEmail) || userEmail.isEmpty()) {
             throw new RequiredInputException("userEmail is required");
         }
@@ -37,20 +45,17 @@ public record User(String userEmail, String userName, String userCountry,
         if (Objects.isNull(userCountry) || userCountry.isEmpty()) {
             throw new RequiredInputException("userCountry is required");
         }
+        validateRequiredFieldForFilters(weatherExpectation, minimumTemperatureDistance);
+    }
+
+    private void validateRequiredFieldForFilters(Weather weatherExpectation, Double minimumTemperatureDistance) {
         if (Objects.isNull(weatherExpectation)) {
             throw new RequiredInputException("weatherExpectation is required");
         }
         if (Objects.isNull(minimumTemperatureDistance)) {
             throw new RequiredInputException("minimumTemperatureDistance is required");
         }
-        if (!userEmail.matches(TravelAgencyConstant.EMAIL_REGEX)) {
-            throw new InvalidEmailException("Invalid email address, please enter correct email address");
-        }
-        if (minimumTemperatureDistance <= 0 || minimumTemperatureDistance > 40) {
-            throw new InvalidTemperatureException("Invalid temperature, please enter correct value");
-        }
     }
-
 
     @Override
     public boolean equals(Object o) {

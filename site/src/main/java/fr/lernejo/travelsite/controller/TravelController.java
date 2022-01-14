@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class TravelController {
 
-    private TravelSiteService travelSiteService;
+    private final TravelSiteService travelSiteService;
 
     public TravelController(TravelSiteService travelSiteService) {
         this.travelSiteService = travelSiteService;
