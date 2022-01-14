@@ -38,18 +38,18 @@ public class TravelSiteService {
     private List<Travel> getUserTravels(User user) {
         List<Travel> listOfTravels = predictionService.getListOfTravels();
         double countryAvgTemperature = userCountryTemp(user.userCountry(), listOfTravels);
-        double finalTempToCalculate = countryAvgTemperature + user.minimumTemperatureDistance();
         return listOfTravels.stream().filter(travel ->
-            isEligibleTravelForWeatherExpectation(user.weatherExpectation(), finalTempToCalculate, travel)).collect(Collectors.toList());
+            isEligibleTravelForWeatherExpectation(user.weatherExpectation(), countryAvgTemperature, user.minimumTemperatureDistance(), travel)).collect(Collectors.toList());
 
     }
 
-    private boolean isEligibleTravelForWeatherExpectation(Weather weather, double finalTempToCalculate, Travel travel) {
+    private boolean isEligibleTravelForWeatherExpectation(Weather weather, double countryAvgTemperature,  double minimumTemperatureDistance, Travel travel) {
+
         if (weather.equals(Weather.COLDER)) {
-            return travel.temperature() < finalTempToCalculate;
+            return travel.temperature() < (countryAvgTemperature - minimumTemperatureDistance);
         }
         if (weather.equals(Weather.WARMER)) {
-            return travel.temperature() > finalTempToCalculate;
+            return travel.temperature() > (countryAvgTemperature + minimumTemperatureDistance);
         }
         return false;
 
