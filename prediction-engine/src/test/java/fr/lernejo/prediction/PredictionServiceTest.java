@@ -2,6 +2,8 @@ package fr.lernejo.prediction;
 
 import fr.lernejo.prediction.model.Prediction;
 import fr.lernejo.prediction.service.PredictionService;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -30,6 +32,11 @@ class PredictionServiceTest {
         assertThat(temperature1.date()).isNotNull();
         assertThat(temperature2.date()).isNotNull();
 
+    }
 
+    @Test
+    public void unknown_country_prediction_exception() {
+        Assertions.assertThatExceptionOfType(UnknownCountryException.class)
+            .isThrownBy(() -> service.getPredictionByCountry("Unknown"));
     }
 }

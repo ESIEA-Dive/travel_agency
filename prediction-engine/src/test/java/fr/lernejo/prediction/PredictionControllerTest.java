@@ -27,4 +27,12 @@ class PredictionControllerTest {
             .perform(MockMvcRequestBuilders.get("/api/temperature").param("country", "Not Exist"))
             .andExpect(MockMvcResultMatchers.status().is(HttpStatus.EXPECTATION_FAILED.value()));
     }
+
+    @Test
+    void ping_test(@Autowired MockMvc mockMvc) throws Exception {
+
+        mockMvc
+            .perform(MockMvcRequestBuilders.get("/api/ping"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }
