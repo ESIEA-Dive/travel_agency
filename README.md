@@ -1,5 +1,3 @@
-![1](https://user-images.githubusercontent.com/95215926/149556185-bec6cc79-298b-489b-891f-6bc39d81a376.png)
-
 # Template for the Travel Agency project
 
 [![build workflow](https://github.com/ESIEA-Dive/travel_agency/actions/workflows/build.yml/badge.svg)](https://github.com/ESIEA-Dive/travel_agency/actions)
